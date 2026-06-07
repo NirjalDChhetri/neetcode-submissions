@@ -6,27 +6,24 @@ class Solution {
      */
     topKFrequent(nums, k) {
         //Use a Map
-        const map = new Map();
+        const freqMap = new Map();
 
-        for (let num of nums) {
-            map.set(num, (map.get(num) || 0) + 1);
+        for (const num of nums) {
+            freqMap.set(num, (freqMap.get(num) || 0) + 1);
         }
-        // nums = [1,2,2,3,3,3] -> map {1->1, 2->2, 3->3}
 
-        const buckets = Array.from({ length: nums.length + 1 }, () => []);
+        const buckets = Array(nums.length + 1)
+            .fill()
+            .map(() => []);
 
-        for (let [num, freq] of map) {
+        for (const [num, freq] of freqMap) {
             buckets[freq].push(num);
         }
 
-        //buckets[1] = [1]
-        //buckets[1] = [1]
-        //buckets[1] = [1]
-
         const result = [];
 
-        for (let i = buckets.length - 1; i >= 0; i--) {
-            for (let num of buckets[i]) {
+        for (let freq = buckets.length - 1; freq > 0; freq--) {
+            for (const num of buckets[freq]) {
                 result.push(num);
 
                 if (result.length === k) {
@@ -34,6 +31,7 @@ class Solution {
                 }
             }
         }
+
         return result;
     }
 }
